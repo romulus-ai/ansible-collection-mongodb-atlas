@@ -59,7 +59,10 @@ class AtlasAPIObject:
         content = ""
         error = ""
         if rsp and info["status"] not in (204, 404):
-            content = json.loads(rsp.read())
+            try:
+              content = json.loads(rsp.read())
+            except KeyError:
+              content = str(rsp.read())
         if info["status"] >= 400:
             try:
                 content = json.loads(info["body"])
